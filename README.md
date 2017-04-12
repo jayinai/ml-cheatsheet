@@ -55,6 +55,9 @@ df.head() # return the first 5 rows
 df.describe() # summary statistics, excluding NaN values
 df.info() # concise summary, e.g., non-null rows
 df.shape # shape of dataset
+df.skew() # skewness for numeric columns
+df.kurt() # unbiased kurtosis for numeric columns
+df.get_dtype_counts() # counts of dtypes
 ```
 
 pairwise correlation of columns
@@ -62,9 +65,16 @@ pairwise correlation of columns
 df.corr()
 ```
 
-**Plotting: dataframe shouldn't have missing values; we can either
-drop rows with missing values, or impute such missing values. The
-following code examples use the first approach**
+
+### plotting
+
+plot heatmap of correlation matrix (of all numeric columns)
+```python
+cm = np.corrcoef(df.T)
+sns.heatmap(cm, annot=True, yticklabels=df.columns, xticklabels=df.columns)
+```
+
+![heat-corr](/assets/heat-corr.png)
 
 plot univariate distributions
 ```python
@@ -98,11 +108,9 @@ sns.pairplot(df.dropna())
 
 ![pairwise](/assets/pairwise.png)
 
-#### hypertools
-
-[hypertools](https://github.com/ContextLab/hypertools) is a python toolbox for
+**[hypertools](https://github.com/ContextLab/hypertools) is a python toolbox for
 visualizing and manipulating high-dimensional data. This is desirable for the EDA
-phase.
+phase.**
 
 visually explore relationship between features and target (in 3D space)
 ```python
@@ -158,7 +166,6 @@ plt.show()
 
 For more use cases of hypertools, check [notebooks](https://github.com/ContextLab/hypertools-paper-notebooks)
  and [examples](http://hypertools.readthedocs.io/en/latest/auto_examples/index.html)
-
 
 
 ## Preprocessing
