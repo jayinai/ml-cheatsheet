@@ -98,6 +98,69 @@ sns.pairplot(df.dropna())
 
 ![pairwise](/assets/pairwise.png)
 
+#### hypertools
+
+[hypertools](https://github.com/ContextLab/hypertools) is a python toolbox for
+visualizing and manipulating high-dimensional data. This is desirable for the EDA
+phase.
+
+visually explore relationship between features and target (in 3D space)
+```python
+import hypertools as hyp
+import seaborn as sns
+from sklearn import datasets
+
+iris = datasets.load_iris()
+X = iris.data
+y = iris.target
+hyp.plot(X,'o', group=y, legend=list(set(y)), normalize='across')
+```
+
+![hypertools](/assets/hypertools.png)
+
+
+linear regression analysis using each PC
+```python
+from sklearn import linear_model
+sns.set(style="darkgrid")
+sns.set_palette(palette='Set2')
+
+data = pd.DataFrame(data=X, columns=iris.feature_names)
+reduced_data = hyp.reduce(hyp.tools.df2mat(data), ndims=3)
+
+linreg = linear_model.LinearRegression()
+linreg.fit(reduced_data, y)
+
+sns.regplot(x=reduced_data[:,0],y=linreg.predict(reduced_data), label='PC1',x_bins=10)
+sns.regplot(x=reduced_data[:,1],y=linreg.predict(reduced_data), label='PC2',x_bins=10)
+sns.regplot(x=reduced_data[:,2],y=linreg.predict(reduced_data), label='PC3',x_bins=10)
+
+plt.title('Correlation between PC and Regression Output')
+plt.xlabel('PC Value')
+plt.ylabel('Regression Output')
+plt.legend()
+plt.show()
+```
+
+![lg-pc](/assets/lg-pc.png)
+
+break down by labels
+```python
+sns.set(style="darkgrid")
+sns.swarmplot(y,reduced_data[:,0],order=[0, 1, 2])
+plt.title('Correlation between PC1 and target')
+plt.xlabel('Target')
+plt.ylabel('PC1 Value')
+plt.show()
+```
+
+![by-label](/assets/by-label.png)
+
+For more use cases of hypertools, check [notebooks](https://github.com/ContextLab/hypertools-paper-notebooks)
+ and [examples](http://hypertools.readthedocs.io/en/latest/auto_examples/index.html)
+
+
+
 ## Preprocessing
 
 drop columns
