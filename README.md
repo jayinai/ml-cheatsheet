@@ -53,12 +53,21 @@ data summary
 ```python
 df.head() # return the first 5 rows
 df.describe() # summary statistics, excluding NaN values
-df.info() # concise summary, e.g., non-null rows
+df.info() # concise summary of the table
 df.shape # shape of dataset
 df.skew() # skewness for numeric columns
 df.kurt() # unbiased kurtosis for numeric columns
 df.get_dtype_counts() # counts of dtypes
 ```
+
+display missing value proportion for each col
+```python
+for c in df.columns:
+  num_na = df[c].isnull().sum()
+  if num_na > 0:
+    print round(num_na / float(len(df)), 3), '|', c
+```
+
 
 pairwise correlation of columns
 ```python
@@ -176,12 +185,29 @@ df.drop([col1, col2, ...], axis=1, inplace=True) # in place
 new_df = df.drop([col1, col2, ...], axis=1) # create new df (overhead created)
 ```
 
-fill missing values (using column median; can also use mean, or other more advanced
-imputing methods)
+handle missing values
 ```python
-col_median = df.median(axis=0)
-df.fillna(col_median, inplace=True)
+# fill with mode, mean, or median
+df_mode, df_mean, df_median = df.mode().iloc[0], df.mean(), df.median()
+
+df_fill_mode = df.fillna(df_mode)
+df_fill_mean = df.fillna(df_mean)
+df_fill_median = df.fillna(df_median)
+
+# drop col with any missing values
+df_drop_na_col = df.dropna(axis=1)
 ```
+
+encode categorical features
+```python
+from sklearn.preprocessing import LabelEncoder
+
+df_col = df.columns
+col_non_num = [c for c in df_col if df[c].dtype == 'object']
+for c in col_non_num:
+  df[c] = LabelEncoder().fit_transform(df[c])
+```
+
 
 join two tables/dataframes
 ```python
