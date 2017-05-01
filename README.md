@@ -53,7 +53,7 @@ data summary
 ```python
 df.head() # return the first 5 rows
 df.describe() # summary statistics, excluding NaN values
-df.info() # concise summary of the table
+df.info(verbose=True, null_counts=True) # concise summary of the table
 df.shape # shape of dataset
 df.skew() # skewness for numeric columns
 df.kurt() # unbiased kurtosis for numeric columns
