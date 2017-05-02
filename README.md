@@ -282,7 +282,7 @@ df['num_zero'] = (df == 0).sum(axis=1)
 ```
 
 add feature: binary value for each feature indicating whether a data point is null
-```
+```python
 for c in df:
   if pd.isnull(df[c]).any():
     df[c+'-ISNULL'] = pd.isnull(df[c])
