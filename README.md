@@ -37,6 +37,8 @@ are some generic code snippets that can be applied to any structured dataset
 
 import libraries
 ```python
+import os
+import glob
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -47,6 +49,11 @@ data I/O
 ```python
 df = pd.read_csv(file_path) # read in csv file as a DataFrame
 df.to_csv(file_path, index=False) # save a DataFrame as csv file
+
+# read all csv under a folder and concatenate them into a big dataframe
+path = r'folder/path'
+all_files = glob.glob(os.path.join(path, "*.csv"))
+df = pd.concat((pd.read_csv(f) for f in all_files))
 ```
 
 data summary
