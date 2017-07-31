@@ -249,6 +249,14 @@ removal
 new_df = df[(np.abs(stats.zscore(df)) < 3).all(axis=1)]
 ```
 
+filter
+```python
+# filter by one value
+new_df = df[df.col==val]
+
+# filter by multiple values
+new_df = df[df.col.isin(val_list)]
+```
 
 ## Feature engineering
 
