@@ -65,6 +65,20 @@ all_files = [os.path.join(root, filename)
 df = pd.concat((pd.read_csv(f) for f in all_files))
 ```
 
+data I/O zipped
+
+```python
+import pandas as pd
+import zipfile
+
+zf_path = 'file.zip'
+zf = zipfile.ZipFile(zf_path) # zipfile.ZipFile object
+all_files = zf.namelist() # list all zipped files
+all_files = [f for f in all_files if f.endswith('.csv')] # e.g., get only csv
+df = pd.concat((pd.read_csv(zf.open(f)) for f in all_files)) # concat all zipped csv into one dataframe
+```
+
+
 data summary
 ```python
 df.head() # return the first 5 rows
