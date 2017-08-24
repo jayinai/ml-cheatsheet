@@ -78,7 +78,7 @@ all_files = [f for f in all_files if f.endswith('.csv')] # e.g., get only csv
 df = pd.concat((pd.read_csv(zf.open(f)) for f in all_files)) # concat all zipped csv into one dataframe
 ```
 
-To sqlite3 DB
+To a table in sqlite3 DB (then you can use [DB Browser for SQLite](http://sqlitebrowser.org/) to view and query the table)
 
 ```python
 import sqlite3
